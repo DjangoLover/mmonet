@@ -1,3 +1,18 @@
 from django.db import models
 
-# Create your models here.
+class NetworkDeviceType(models.Model):
+	pass
+	
+
+class Interface(models.Model):
+	pass
+
+
+
+class NetworkDevice(models.Model):
+	pass
+	
+
+class Interface(models.Model):
+	pass
+	
