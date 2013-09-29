@@ -5,6 +5,7 @@
 <div class="container">
 <div class="row">
 	<a class="btn btn-default" href="/inventory/add?t=NetworkDevice"><i class="icon-plus icon-fixed-width"></i>Add Networked Device</a>
+	<a class="btn btn-default" href="/inventory/connect"><i class="icon-plus icon-fixed-width"></i>Add connection</a>
 </div>
 </div>
 <div class="container">
@@ -28,7 +29,22 @@
 			<a href="/inventory/delete?uuid={{node.eid}}" class="col-md-1 col-md-offset-5 btn btn-danger"><i class="icon-trash"></i></a>
 		</div>
 		<div class="row details">
-			<div class="well"></div>
+			<div class="well">
+				{% for iface in node.outV %}
+				<div class="row">
+					<div class="col-md-11">
+						<span class="col-md-1"> {{iface.data.name}}</span>
+						{% for link in iface.outV %}
+						<span class="col-md-1"> <--> </span>
+							{% for termination in link.outV %}
+							<span class="col-md-2">{{termination.data.name}} <a href="/inventory/delete?uuid={{link.eid}}"><i class="icon-trash"></i></a></span> 
+							{% endfor %}
+						{% endfor %}
+					</div>
+					<a href="/inventory/delete?uuid={{node.eid}}" class="btn btn-danger col-md-1"><i class="icon-trash"></i></a>
+				</div>
+				{% endfor %}
+			</div>
 		</div>
 	</div>
 	{% endfor%}

@@ -3,10 +3,11 @@
 
 {%block content%}
 <div class="container">
-	<form class="form-group">
-{{form|crispy}}
+	<form class="form-group" method="post">
+	{% csrf_token %}
+	{{form|crispy}}
 <input type="hidden" name="t" value="{{t}}"></input>
-{%csrf_token%}
+<input type="hidden" name="in" value="{{in}}"></input>
 <button class="btn btn-primary" type="submit">Confirm</button>
 </div>
 

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+
+{%block content%}
+<div class="container">
+<div class="row">
+	<a class="btn btn-default" href="/monitor/add_measure"><i class="icon-plus icon-fixed-width"></i>Measure</a>
+	<a class="btn btn-default" href="/monitor/add_trigger"><i class="icon-plus icon-fixed-width"></i>Trigger</a>
+</div>
+</div>
+<div class="container">
+{% for measure in measures %}
+<div class="jumbotron">
+	{% for node in measure.outV %}
+	<h1>{{node.name}}</h1>
+	{% endfor %}
+	<button class=" btn btn-success col-md-1"><i class="icon-chevron-down"></i></button>
+	<div class="col-md-10">{{measure.operation}}</diV>
+	<a class="col-md-1 btn btn-danger" href="/monitor/delete?eid={{measure.eid}}"><i class="icon-trash"></i></a>
+</div>
+{% endfor %}
+</div>
+{%endblock content%}
+
+
+{%block script%}
+$(function(){
+	$('.details').hide();
+
+	$('.more-details-btn').click(function(){
+		$(this).parent('.row').siblings('.details').toggle();
+		$(this).children('i').toggleClass('icon-chevron-down').toggleClass('icon-chevron-up')
+	});
+});
+{%endblock script%}

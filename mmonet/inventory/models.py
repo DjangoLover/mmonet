@@ -83,8 +83,7 @@ class Interface(Node):
 class Link(Node):
 	element_type = "Link"
 	uuid = String(default=uuidify)
-	name = String()
-	bidirectional = Bool()
+	bidirectional = Bool(default=True)
 
 
 
