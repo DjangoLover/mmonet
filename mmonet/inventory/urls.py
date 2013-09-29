@@ -6,5 +6,6 @@ urlpatterns = patterns('',
     url(r'^/delete$', 'inventory.views.delete'),
     url(r'^/connect$', 'inventory.views.connect'),
     url(r'^/add$', 'inventory.views.add'),
+    url(r'^/api/configuration$', 'inventory.views.get_configuration'),
 
     )

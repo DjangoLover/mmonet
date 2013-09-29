@@ -34,7 +34,7 @@
 						<div class="col-md-1"><div class="icn-{{iface.data.element_type}}"></div></div>
 						<span class="col-md-1"> {{iface.data.name}}</span>
 						{% for link in iface.outV %}
-						<span class="col-md-1"> <--> </span>
+						<span class="col-md-1"><center><i class="icon-resize-horizontal"></i></center></span>
 							{% for termination in link.outV %}
 							<span class="col-md-2">{{termination.data.name}} <a href="/inventory/delete?uuid={{link.eid}}"><i class="icon-trash"></i></a></span> 
 							{% endfor %}

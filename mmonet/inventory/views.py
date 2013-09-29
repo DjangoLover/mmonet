@@ -1,7 +1,8 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django import forms
 
+import json
 
 from .models import *
 from .tasks import *
@@ -39,7 +40,7 @@ class AgentForm(forms.Form):
 	username = forms.CharField()
 	key = forms.CharField()
 
-
+NETWORK_CHOICES = []
 class ConnectionForm(forms.Form):
 	ns = g.nd.get_all()
 	if ns is not None:
@@ -47,6 +48,7 @@ class ConnectionForm(forms.Form):
 		xs = x.outV()
 		if xs is not None:
 			NETWORK_CHOICES = [(x.name, [(y.eid, y.name) for y in x.outV() ]) for x in ns]
+
 	connection_from = forms.ChoiceField(choices = NETWORK_CHOICES)
 	connection_to = forms.ChoiceField(choices=NETWORK_CHOICES)
 
@@ -121,3 +123,37 @@ def connect(request):
 		f = ConnectionForm()
 		return render_to_response('form.html', RequestContext(request, {"form":f}))
 
+def get_configuration(request):
+	item_uuid = request.REQUEST.get('uuid')
+	ret = []
+	for node in g.nd.get_all():
+		p = {}
+		p['uuid'] = node.uuid
+		p['name'] = node.name
+		p['elements'] = []
+		if node.outV() is not None:
+			for item in node.outV():
+				p['elements'].append({
+					"name":item.data().get('name'),
+					"type":item.data().get('element_type'),
+					"uuid":item.data().get('uuid')
+				})
+		ret.append(p)
+
+	if item_uuid is not None:
+
+		for itm in ret:
+			if itm['uuid'] == item_uuid:
+				nret = [itm]
+				break
+			for el in itm['elements']:
+				if el['uuid'] == item_uuid:
+					nret = [itm]
+					break
+
+		return HttpResponse(json.dumps(nret))
+
+
+
+	
+	return HttpResponse(json.dumps(ret))
