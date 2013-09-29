@@ -122,7 +122,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
-    'inventory'
+    'djcelery',
+    'inventory',
+    'crispy_forms'
 )
 
 # A sample logging configuration. The only tangible logging
@@ -161,3 +163,8 @@ except NameError:
         from local_settings import *
     except ImportError:
         pass
+
+import djcelery
+djcelery.setup_loader()
+
+CRISPY_TEMPLATE_PACK ="bootstrap3"

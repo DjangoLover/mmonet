@@ -1,1 +1,49 @@
 {% extends 'base.html' %}
+
+
+{%block content%}
+<div class="container">
+<div class="row">
+	<a class="btn btn-default" href="/inventory/add?t=NetworkDevice"><i class="icon-plus icon-fixed-width"></i>Add Networked Device</a>
+</div>
+</div>
+<div class="container">
+	{% for node in nodes%}
+	<div class="jumbotron">
+		<div class="row">
+			<h1 class="col-md-12" >{{node.name}}</h1>
+		</div>
+		<div class="row">
+			{{node.ip}}
+		</div>
+		<div class="row">
+			
+			<button class="col-md-1 more-details-btn btn btn-success"><i class="icon-chevron-down"></i></button>
+			<div class="btn-group col-md-5">
+				<a class=" btn btn-primary" href="/inventory/add?t=Interface&in={{node.eid}}"><i class="icon-plus icon-fixed-width"></i>Iface</a>
+				<a class="btn btn-primary"><i class="icon-plus icon-fixed-width"></i>Storage</a>
+				<a class=" btn btn-primary"><i class="icon-plus icon-fixed-width"></i>Service</a>
+				<a class=" btn btn-warning"><i class="icon-plus icon-fixed-width"></i>Agent</a>
+			</div>
+			<a href="/inventory/delete?uuid={{node.eid}}" class="col-md-1 col-md-offset-5 btn btn-danger"><i class="icon-trash"></i></a>
+		</div>
+		<div class="row details">
+			<div class="well"></div>
+		</div>
+	</div>
+	{% endfor%}
+
+</div>
+{%endblock content%}
+
+
+{%block script%}
+$(function(){
+	$('.details').hide();
+
+	$('.more-details-btn').click(function(){
+		$(this).parent('.row').siblings('.details').toggle();
+		$(this).children('i').toggleClass('icon-chevron-down').toggleClass('icon-chevron-up')
+	});
+});
+{%endblock script%}

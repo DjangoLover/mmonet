@@ -1,1 +1,24 @@
 {% extends 'base.html' %}
+
+{%block content%}
+<div class="container">
+	<div class="row">
+		<div class="jumbotron col-md-5">
+			<div class="row">
+				<h1><small><i class="icon-sitemap icon-fixed-width"></i></small>Inventory</h1>
+			</div>
+			<div class="row">
+				<a href="/inventory" class="btn btn-primary">Go</a>
+			</div>
+		</div>
+		<div class="jumbotron col-md-offset-2 col-md-5">
+			<div class="row">
+				<h1><small><i class="icon-bar-chart icon-fixed-width"></i></small>Monitor</h1>
+			</div>
+			<div class="row">
+				<a href="/monitor" class="btn btn-primary">Go</a>
+			</div>
+		</div>
+	</div>
+</div>
+{%endblock content%}
