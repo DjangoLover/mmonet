@@ -3,12 +3,10 @@
 
 {%block content%}
 <div class="container">
-<div class="row">
-	<a class="btn btn-default" href="/inventory/add?t=NetworkDevice"><i class="icon-plus icon-fixed-width"></i>Add Networked Device</a>
-	<a class="btn btn-default" href="/inventory/connect"><i class="icon-plus icon-fixed-width"></i>Add connection</a>
-</div>
-</div>
-<div class="container">
+	<div class="row">
+		<a class="btn btn-default" href="/inventory/add?t=NetworkDevice"><i class="icon-plus icon-fixed-width"></i>Add Networked Device</a>
+		<a class="btn btn-default" href="/inventory/connect"><i class="icon-plus icon-fixed-width"></i>Add connection</a>
+	</div>
 	{% for node in nodes%}
 	<div class="jumbotron">
 		<div class="row">
@@ -22,9 +20,9 @@
 			<button class="col-md-1 more-details-btn btn btn-success"><i class="icon-chevron-down"></i></button>
 			<div class="btn-group col-md-5">
 				<a class=" btn btn-primary" href="/inventory/add?t=Interface&in={{node.eid}}"><i class="icon-plus icon-fixed-width"></i>Iface</a>
-				<a class="btn btn-primary"><i class="icon-plus icon-fixed-width"></i>Storage</a>
-				<a class=" btn btn-primary"><i class="icon-plus icon-fixed-width"></i>Service</a>
-				<a class=" btn btn-warning"><i class="icon-plus icon-fixed-width"></i>Agent</a>
+				<a href="/inventory/add?t=Storage&in={{node.eid}}" class="btn btn-primary"><i class="icon-plus icon-fixed-width"></i>Storage</a>
+				<a href="/inventory/add?t=Service&in={{node.eid}}" class=" btn btn-primary"><i class="icon-plus icon-fixed-width"></i>Service</a>
+				<a href="/inventory/add?t=Agent&in={{node.eid}}" class=" btn btn-warning"><i class="icon-plus icon-fixed-width"></i>Agent</a>
 			</div>
 			<a href="/inventory/delete?uuid={{node.eid}}" class="col-md-1 col-md-offset-5 btn btn-danger"><i class="icon-trash"></i></a>
 		</div>
@@ -33,6 +31,7 @@
 				{% for iface in node.outV %}
 				<div class="row">
 					<div class="col-md-11">
+						<div class="col-md-1"><div class="icn-{{iface.data.element_type}}"></div></div>
 						<span class="col-md-1"> {{iface.data.name}}</span>
 						{% for link in iface.outV %}
 						<span class="col-md-1"> <--> </span>

@@ -11,6 +11,9 @@ from django.template import RequestContext
 g = Graph()
 g.add_proxy('nd', NetworkDevice)
 g.add_proxy('i', Interface)
+g.add_proxy('st', Storage)
+g.add_proxy('se', Service)
+g.add_proxy('a', SSHAgent)
 
 g.add_proxy('l', Link)
 
@@ -26,6 +29,16 @@ class NetworkDeviceForm(forms.Form):
 class InterfaceForm(forms.Form):
 	name = forms.CharField()
 
+class StorageForm(forms.Form):
+	name = forms.CharField()
+
+class ServiceForm(forms.Form):
+	name = forms.CharField()
+
+class AgentForm(forms.Form):
+	username = forms.CharField()
+	key = forms.CharField()
+
 
 class ConnectionForm(forms.Form):
 	ns = g.nd.get_all()
@@ -40,16 +53,25 @@ class ConnectionForm(forms.Form):
 	link_type=forms.ChoiceField(choices=[("L1", "Layer 1"),("L2", "Layer 2"),("L3","Layer 3")])
 gs = {
 		"NetworkDevice":g.nd,
-		"Interface":g.i
+		"Interface":g.i,
+		"Storage":g.st,
+		"Service":g.se,
+		"Agent":g.a,
 	}
 
 fs = {
 		"NetworkDevice":NetworkDeviceForm,
-		"Interface":InterfaceForm
+		"Interface":InterfaceForm,
+		"Storage":StorageForm,
+		"Service":ServiceForm,
+		"Agent":AgentForm,
 	}
 fields = {
 		"NetworkDevice":["name","ip", "virtual"],
 		"Interface":["name"],
+		"Storage":["name"],
+		"Service":["name"],
+		"Agent":["username", "key"],
 }
 
 
