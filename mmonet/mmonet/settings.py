@@ -168,3 +168,17 @@ import djcelery
 djcelery.setup_loader()
 
 CRISPY_TEMPLATE_PACK ="bootstrap3"
+
+from datetime import timedelta
+
+
+from monitor.tasks import run as do_run
+
+CELERYBEAT_SCHEDULE = {
+    'every-second': {
+        'task': do_run.name,
+        'schedule': timedelta(seconds=1),
+    },
+}
+
+CELERY_TIMEZONE = 'UTC'

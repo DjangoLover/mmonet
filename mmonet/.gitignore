@@ -5,6 +5,11 @@
 *.pyc
 *.pyo
 
+*.pid
+*.db-journal
+
+celerybeat-schedule
+
 # Common IDEs
 *.swp
 .idea/

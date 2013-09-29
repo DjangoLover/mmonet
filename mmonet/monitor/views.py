@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django import forms
 
-from monitor.models import *
+from .models import *
 from inventory.models import *
 from monitor.tasks import *
 from bulbs.neo4jserver import Graph
@@ -39,13 +39,19 @@ class MeasureForm(forms.Form):
 		) for u in g.i.get_all()]),
 	])
 	frequency = forms.IntegerField()
+	name = forms.CharField()
 	operation = forms.CharField()
 
 class TriggerForm(forms.Form):
-	pass
+	measure = forms.ChoiceField(choices = [
+		(x.eid,x.name) for x in g.m.get_all()
+		])
 
 class TriggerValueForm(forms.Form):
-	pass
+	trigger_type=forms.ChoiceField(choices = [
+	])
+
+	trigger_value = forms.CharField()
 
 
 
@@ -62,7 +68,7 @@ def add_measure(request):
 	if request.method == "POST":
 		f = MeasureForm(request.REQUEST)
 		if f.is_valid():
-			d = g.m.create(frequency = request.REQUEST.get('frequency'), operation = request.REQUEST.get('operation'))
+			d = g.m.create(frequency = request.REQUEST.get('frequency'), operation = request.REQUEST.get('operation'), name=request.REQUEST.get('name'))
 			i = g.nd.get(request.REQUEST.get('component'))
 			g.measures.create(d,i)
 			return HttpResponseRedirect('/monitor')
@@ -76,7 +82,16 @@ def delete(request):
 	return HttpResponseRedirect('/monitor')
 
 def add_trigger(request):
-	pass
+	if request.method == "POST":
+		f = TriggerForm(request.REQUEST)
+		if f.is_valid():
+			d = g.t.create()
+			i = g.m.get(request.REQUEST.get('measure'))
+			g.has_trigger.create(d,i)
+			return HttpResponseRedirect('/monitor')
+	else:
+		f = TriggerForm()
+	return render_to_response('form.html', RequestContext(request, { "form":f}))
 
 def add_trigger_value(request):
 	pass

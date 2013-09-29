@@ -12,11 +12,34 @@
 {% for measure in measures %}
 <div class="jumbotron">
 	{% for node in measure.outV %}
-	<h1>{{node.name}}</h1>
+		<h1>{{node.name}}</h1>
 	{% endfor %}
-	<button class=" btn btn-success col-md-1"><i class="icon-chevron-down"></i></button>
-	<div class="col-md-10">{{measure.operation}}</diV>
-	<a class="col-md-1 btn btn-danger" href="/monitor/delete?eid={{measure.eid}}"><i class="icon-trash"></i></a>
+	<div class="row">
+		<button class="more-details-btn btn btn-success col-md-1"><i class="icon-chevron-down"></i></button>
+		<div class="col-md-10">{{measure.operation}}</diV>
+		<a class="col-md-1 btn btn-danger" href="/monitor/delete?eid={{measure.eid}}"><i class="icon-trash"></i></a>
+	</div>
+	<div class="row">
+		{{measure.data}}
+	</div>
+	<div class="row details">
+			<div class="well">
+				{% for iface in node.outV %}
+				<div class="row">
+					<div class="col-md-11">
+						<span class="col-md-1"> {{iface.data.name}}</span>
+						{% for link in iface.outV %}
+						<span class="col-md-1"> <--> </span>
+							{% for termination in link.outV %}
+							<span class="col-md-2">{{termination.data.name}} <a href="/inventory/delete?uuid={{link.eid}}"><i class="icon-trash"></i></a></span> 
+							{% endfor %}
+						{% endfor %}
+					</div>
+					<a href="/inventory/delete?uuid={{node.eid}}" class="btn btn-danger col-md-1"><i class="icon-trash"></i></a>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
 </div>
 {% endfor %}
 </div>
